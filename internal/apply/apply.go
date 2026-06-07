@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 
@@ -29,12 +30,20 @@ func Execute(ctx context.Context, connectionString string, project *projectxml.P
 
 	runInTx := func(tx pgx.Tx) error {
 		if project.Target.Apply.LockTimeout != "" {
-			if _, err := tx.Exec(ctx, fmt.Sprintf("SET lock_timeout = '%s'", project.Target.Apply.LockTimeout)); err != nil {
+			lockTimeout, err := normalizeTimeout(project.Target.Apply.LockTimeout)
+			if err != nil {
+				return fmt.Errorf("invalid lock_timeout %q: %w", project.Target.Apply.LockTimeout, err)
+			}
+			if _, err := tx.Exec(ctx, fmt.Sprintf("SET lock_timeout = '%s'", lockTimeout)); err != nil {
 				return err
 			}
 		}
 		if project.Target.Apply.StatementTimeout != "" {
-			if _, err := tx.Exec(ctx, fmt.Sprintf("SET statement_timeout = '%s'", project.Target.Apply.StatementTimeout)); err != nil {
+			statementTimeout, err := normalizeTimeout(project.Target.Apply.StatementTimeout)
+			if err != nil {
+				return fmt.Errorf("invalid statement_timeout %q: %w", project.Target.Apply.StatementTimeout, err)
+			}
+			if _, err := tx.Exec(ctx, fmt.Sprintf("SET statement_timeout = '%s'", statementTimeout)); err != nil {
 				return err
 			}
 		}
@@ -52,12 +61,20 @@ func Execute(ctx context.Context, connectionString string, project *projectxml.P
 
 	runNoTx := func() error {
 		if project.Target.Apply.LockTimeout != "" {
-			if _, err := conn.Exec(ctx, fmt.Sprintf("SET lock_timeout = '%s'", project.Target.Apply.LockTimeout)); err != nil {
+			lockTimeout, err := normalizeTimeout(project.Target.Apply.LockTimeout)
+			if err != nil {
+				return fmt.Errorf("invalid lock_timeout %q: %w", project.Target.Apply.LockTimeout, err)
+			}
+			if _, err := conn.Exec(ctx, fmt.Sprintf("SET lock_timeout = '%s'", lockTimeout)); err != nil {
 				return err
 			}
 		}
 		if project.Target.Apply.StatementTimeout != "" {
-			if _, err := conn.Exec(ctx, fmt.Sprintf("SET statement_timeout = '%s'", project.Target.Apply.StatementTimeout)); err != nil {
+			statementTimeout, err := normalizeTimeout(project.Target.Apply.StatementTimeout)
+			if err != nil {
+				return fmt.Errorf("invalid statement_timeout %q: %w", project.Target.Apply.StatementTimeout, err)
+			}
+			if _, err := conn.Exec(ctx, fmt.Sprintf("SET statement_timeout = '%s'", statementTimeout)); err != nil {
 				return err
 			}
 		}
@@ -86,4 +103,19 @@ func Execute(ctx context.Context, connectionString string, project *projectxml.P
 	}
 
 	return runNoTx()
+}
+
+func normalizeTimeout(value string) (string, error) {
+	value = strings.TrimSpace(value)
+	if value == "" {
+		return "", nil
+	}
+
+	// Support Go-style durations in project files and convert them to a PostgreSQL-compatible millisecond literal.
+	if duration, err := time.ParseDuration(value); err == nil {
+		return fmt.Sprintf("%dms", duration.Milliseconds()), nil
+	}
+
+	// Fall back to raw PostgreSQL-compatible timeout literals like "10min", "1h", "500ms", or "0".
+	return value, nil
 }
