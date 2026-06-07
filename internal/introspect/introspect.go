@@ -21,11 +21,12 @@ func LoadActualModel(ctx context.Context, connectionString string, ownedSchemas 
 	if err := conn.QueryRow(ctx, `select current_setting('server_version_num')::int`).Scan(&versionNum); err != nil {
 		return nil, err
 	}
-	if versionNum/10000 != expectedVersion {
-		return nil, fmt.Errorf("target database is PostgreSQL %d, expected %d", versionNum/10000, expectedVersion)
+	targetVersion := versionNum / 10000
+	if targetVersion < 17 {
+		return nil, fmt.Errorf("target database is PostgreSQL %d, but pgpackage requires PostgreSQL 17 or newer", targetVersion)
 	}
 
-	m := &model.SchemaModel{PostgresVersion: expectedVersion}
+	m := &model.SchemaModel{PostgresVersion: targetVersion}
 	if err := loadSchemas(ctx, conn, ownedSchemas, m); err != nil {
 		return nil, err
 	}

@@ -286,8 +286,8 @@ func (p *Project) Validate() error {
 	if p.Version == "" {
 		return fmt.Errorf("Version is required")
 	}
-	if p.PostgresVersion != 18 {
-		return fmt.Errorf("only PostgreSQL 18 is supported, found %d", p.PostgresVersion)
+	if p.PostgresVersion < 17 {
+		return fmt.Errorf("PostgresVersion must be 17 or newer, found %d", p.PostgresVersion)
 	}
 	if p.DefaultSchema == "" {
 		return fmt.Errorf("DefaultSchema is required")

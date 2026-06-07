@@ -54,8 +54,14 @@ This repository implements the v1 architecture and core end-to-end flow:
 - XML project parsing and validation
 - offline desired-state parsing using `libpg_query`
 - `.pgpkg` package creation
-- target PostgreSQL 18 introspection
+- target PostgreSQL 17+ introspection
 - typed plan generation
 - apply execution with destructive-op safeguards
 
 Integration tests that hit a live database are gated behind `PGPACKAGE_TEST_DSN`.
+
+Current compatibility policy:
+
+- project `PostgresVersion` must be `17` or newer
+- target databases must be PostgreSQL `17` or newer
+- the tool does not require an exact project-version/target-version match
