@@ -63,7 +63,7 @@ func LoadActualModel(ctx context.Context, connectionString string, ownedSchemas 
 }
 
 func loadSchemas(ctx context.Context, conn *pgx.Conn, ownedSchemas []string, m *model.SchemaModel) error {
-	rows, err := conn.Query(ctx, `select nspname from pg_namespace where nspname = any($1)`, ownedSchemas)
+	rows, err := conn.Query(ctx, `select nspname from pg_namespace where nspname = any($1::text[])`, ownedSchemas)
 	if err != nil {
 		return err
 	}
@@ -83,7 +83,7 @@ func loadExtensions(ctx context.Context, conn *pgx.Conn, managedExtensions []str
 		return nil
 	}
 
-	rows, err := conn.Query(ctx, `select extname, extversion from pg_extension where extname = any($1)`, managedExtensions)
+	rows, err := conn.Query(ctx, `select extname, extversion from pg_extension where extname = any($1::text[])`, managedExtensions)
 	if err != nil {
 		return err
 	}
@@ -122,7 +122,7 @@ left join pg_attrdef d on d.adrelid = c.oid and d.adnum = 0
 where c.relkind in ('r','p')
   and a.attnum > 0
   and not a.attisdropped
-  and n.nspname = any($1)
+  and n.nspname = any($1::text[])
 order by n.nspname, c.relname, a.attnum`, ownedSchemas)
 	if err != nil {
 		return err
@@ -184,7 +184,7 @@ select
 from pg_constraint co
 join pg_class c on c.oid = co.conrelid
 join pg_namespace n on n.oid = c.relnamespace
-where n.nspname = any($1)
+where n.nspname = any($1::text[])
 order by n.nspname, c.relname, co.conname`, ownedSchemas)
 	if err != nil {
 		return err
@@ -255,7 +255,7 @@ join pg_class i on i.oid = x.indexrelid
 join pg_class t on t.oid = x.indrelid
 join pg_namespace ni on ni.oid = i.relnamespace
 join pg_namespace nt on nt.oid = t.relnamespace
-where nt.nspname = any($1)
+where nt.nspname = any($1::text[])
   and not x.indisprimary
 order by ni.nspname, i.relname`, ownedSchemas)
 	if err != nil {
@@ -287,7 +287,7 @@ select
 from pg_class c
 join pg_namespace n on n.oid = c.relnamespace
 where c.relkind = 'v'
-  and n.nspname = any($1)
+  and n.nspname = any($1::text[])
 order by n.nspname, c.relname`, ownedSchemas)
 	if err != nil {
 		return err
@@ -314,7 +314,7 @@ select
   pg_get_functiondef(p.oid)
 from pg_proc p
 join pg_namespace n on n.oid = p.pronamespace
-where n.nspname = any($1)
+where n.nspname = any($1::text[])
 order by n.nspname, p.proname, pg_get_function_identity_arguments(p.oid)`, ownedSchemas)
 	if err != nil {
 		return err
@@ -345,7 +345,7 @@ select
 from pg_type t
 join pg_namespace n on n.oid = t.typnamespace
 join pg_enum e on e.enumtypid = t.oid
-where n.nspname = any($1)
+where n.nspname = any($1::text[])
 group by n.nspname, t.typname
 order by n.nspname, t.typname`, ownedSchemas)
 	if err != nil {
@@ -380,7 +380,7 @@ from pg_type t
 join pg_namespace n on n.oid = t.typnamespace
 left join pg_attrdef d on d.adrelid = 0 and d.adnum = 0
 where t.typtype = 'd'
-  and n.nspname = any($1)
+  and n.nspname = any($1::text[])
 order by n.nspname, t.typname`, ownedSchemas)
 	if err != nil {
 		return err
@@ -421,7 +421,7 @@ select
   cycle,
   cache_size
 from pg_sequences
-where schemaname = any($1)
+where schemaname = any($1::text[])
 order by schemaname, sequencename`, ownedSchemas)
 	if err != nil {
 		return err
