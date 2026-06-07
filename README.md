@@ -1,0 +1,61 @@
+# pgpackage
+
+`pgpackage` is a Go-first PostgreSQL schema packaging tool in the spirit of `sqlpackage`, but designed around a standalone CLI and an XML project file.
+
+## Commands
+
+```bash
+pgpackage build --project testdata/sample/sample.pgpackage --output out/
+pgpackage plan --package out/SampleProject.pgpkg --connection "postgres://..."
+pgpackage apply --package out/SampleProject.pgpkg --connection "postgres://..."
+```
+
+## Project file
+
+Projects use the `.pgpackage` extension and describe the desired schema state.
+
+```xml
+<PgPackage ProjectVersion="1">
+  <PropertyGroup>
+    <PackageId>SampleProject</PackageId>
+    <Version>0.1.0</Version>
+    <PostgresVersion>18</PostgresVersion>
+    <DefaultSchema>app</DefaultSchema>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Schema Include="Schemas/**/*.sql" />
+    <Table Include="Tables/**/*.sql" />
+    <View Include="Views/**/*.sql" />
+    <Function Include="Functions/**/*.sql" />
+    <Type Include="Types/**/*.sql" />
+    <Extension Include="Extensions/**/*.sql" />
+    <Security Include="Security/**/*.sql" />
+  </ItemGroup>
+
+  <Target>
+    <OwnedSchemas>
+      <Schema Name="app" />
+    </OwnedSchemas>
+    <Extensions>
+      <Extension Name="pgcrypto" Version="1.3" />
+    </Extensions>
+    <Comparison MatchPrivileges="false" MatchOwners="false" MatchComments="true" />
+    <Plan AllowCreate="true" AllowAlter="true" AllowDrop="false" />
+    <Apply UseTransaction="true" LockTimeout="5s" StatementTimeout="10m" StopOnDataLossRisk="true" />
+  </Target>
+</PgPackage>
+```
+
+## Status
+
+This repository implements the v1 architecture and core end-to-end flow:
+
+- XML project parsing and validation
+- offline desired-state parsing using `libpg_query`
+- `.pgpkg` package creation
+- target PostgreSQL 18 introspection
+- typed plan generation
+- apply execution with destructive-op safeguards
+
+Integration tests that hit a live database are gated behind `PGPACKAGE_TEST_DSN`.
