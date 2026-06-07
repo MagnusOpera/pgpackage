@@ -3,3 +3,4 @@ dist/
 *.pgpkg
 coverage.out
 .DS_Store
+pgpackage
