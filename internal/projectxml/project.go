@@ -353,3 +353,11 @@ func (t TargetConfig) OwnedSchemaNames() []string {
 	}
 	return names
 }
+
+func (t TargetConfig) ExtensionNames() []string {
+	names := make([]string, 0, len(t.Extensions))
+	for _, extension := range t.Extensions {
+		names = append(names, extension.Name)
+	}
+	return names
+}

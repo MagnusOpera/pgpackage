@@ -10,7 +10,7 @@ import (
 	"github.com/pct/pgpackage/internal/model"
 )
 
-func LoadActualModel(ctx context.Context, connectionString string, ownedSchemas []string, expectedVersion int) (*model.SchemaModel, error) {
+func LoadActualModel(ctx context.Context, connectionString string, ownedSchemas []string, managedExtensions []string, expectedVersion int) (*model.SchemaModel, error) {
 	conn, err := pgx.Connect(ctx, connectionString)
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func LoadActualModel(ctx context.Context, connectionString string, ownedSchemas 
 	if err := loadSchemas(ctx, conn, ownedSchemas, m); err != nil {
 		return nil, err
 	}
-	if err := loadExtensions(ctx, conn, m); err != nil {
+	if err := loadExtensions(ctx, conn, managedExtensions, m); err != nil {
 		return nil, err
 	}
 	if err := loadTables(ctx, conn, ownedSchemas, m); err != nil {
@@ -78,8 +78,12 @@ func loadSchemas(ctx context.Context, conn *pgx.Conn, ownedSchemas []string, m *
 	return rows.Err()
 }
 
-func loadExtensions(ctx context.Context, conn *pgx.Conn, m *model.SchemaModel) error {
-	rows, err := conn.Query(ctx, `select extname, extversion from pg_extension`)
+func loadExtensions(ctx context.Context, conn *pgx.Conn, managedExtensions []string, m *model.SchemaModel) error {
+	if len(managedExtensions) == 0 {
+		return nil
+	}
+
+	rows, err := conn.Query(ctx, `select extname, extversion from pg_extension where extname = any($1)`, managedExtensions)
 	if err != nil {
 		return err
 	}

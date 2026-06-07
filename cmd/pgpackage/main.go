@@ -103,7 +103,13 @@ func runPlan(ctx context.Context, args []string) error {
 		return err
 	}
 
-	actual, err := introspect.LoadActualModel(ctx, *connectionString, pkg.Project.Target.OwnedSchemaNames(), pkg.Project.PostgresVersion)
+	actual, err := introspect.LoadActualModel(
+		ctx,
+		*connectionString,
+		pkg.Project.Target.OwnedSchemaNames(),
+		pkg.Project.Target.ExtensionNames(),
+		pkg.Project.PostgresVersion,
+	)
 	if err != nil {
 		return err
 	}
@@ -146,7 +152,13 @@ func runApply(ctx context.Context, args []string) error {
 		return err
 	}
 
-	actual, err := introspect.LoadActualModel(ctx, *connectionString, pkg.Project.Target.OwnedSchemaNames(), pkg.Project.PostgresVersion)
+	actual, err := introspect.LoadActualModel(
+		ctx,
+		*connectionString,
+		pkg.Project.Target.OwnedSchemaNames(),
+		pkg.Project.Target.ExtensionNames(),
+		pkg.Project.PostgresVersion,
+	)
 	if err != nil {
 		return err
 	}
