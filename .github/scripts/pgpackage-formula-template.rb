@@ -4,19 +4,9 @@ class Pgpackage < Formula
   homepage "https://github.com/MagnusOpera/pgpackage"
   version "${PGPACKAGE_VERSION}"
 
-  if OS.mac? && Hardware::CPU.intel?
-    url "${PGPACKAGE_DARWIN_X64_URL}"
-    sha256 "${PGPACKAGE_DARWIN_X64_SHA256}"
-  end
-
   if OS.mac? && Hardware::CPU.arm?
     url "${PGPACKAGE_DARWIN_ARM64_URL}"
     sha256 "${PGPACKAGE_DARWIN_ARM64_SHA256}"
-  end
-
-  if OS.linux? && Hardware::CPU.intel?
-    url "${PGPACKAGE_LINUX_X64_URL}"
-    sha256 "${PGPACKAGE_LINUX_X64_SHA256}"
   end
 
   if OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?

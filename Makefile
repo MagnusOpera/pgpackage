@@ -13,7 +13,7 @@ build_date ?= $(BUILD_DATE)
 LDFLAGS := -X 'main.version=$(version)' -X 'main.commit=$(commit)' -X 'main.buildDate=$(build_date)'
 NATIVE_GOOS := $(shell go env GOOS)
 
-.PHONY: build test sample package clean verify-changelog release-prepare release-build publish publish-darwin publish-linux publish-windows publish-all clean-release website website-install website-build website-version website-typecheck
+.PHONY: build test sample package clean verify-changelog release-prepare release-build publish publish-darwin publish-linux publish-all clean-release website website-install website-build website-version website-typecheck
 
 build:
 	go build -ldflags "$(LDFLAGS)" -o $(APP) $(CMD)
@@ -46,10 +46,6 @@ publish-darwin:
 
 publish-linux:
 	@if [ "$(NATIVE_GOOS)" != "linux" ]; then echo "publish-linux must run on a native linux runner"; exit 1; fi
-	COMMIT="$(commit)" BUILD_DATE="$(build_date)" ./.github/scripts/build-release-archive.sh "$(version)" "$(RELEASE_DIR)"
-
-publish-windows:
-	@if [ "$(NATIVE_GOOS)" != "windows" ]; then echo "publish-windows must run on a native windows runner"; exit 1; fi
 	COMMIT="$(commit)" BUILD_DATE="$(build_date)" ./.github/scripts/build-release-archive.sh "$(version)" "$(RELEASE_DIR)"
 
 publish-all: test publish-$(NATIVE_GOOS)

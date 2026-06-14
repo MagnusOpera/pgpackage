@@ -4,6 +4,8 @@ All notable changes to pgpackage are documented in this file.
 
 ## [Unreleased]
 
+- Limited release artifacts to Linux arm64 and macOS arm64 only, removing Windows and macOS x64 targets.
+
 ## [0.0.1]
 
 

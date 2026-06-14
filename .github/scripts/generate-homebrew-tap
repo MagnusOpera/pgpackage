@@ -13,17 +13,13 @@ cd "$(mktemp -d)"
 >&2 echo "::info Generating Homebrew formula for pgpackage ${PGPACKAGE_VERSION}"
 >&2 echo "::group::Download release assets"
 >&2 gh release download --repo "${PGPACKAGE_GH_REPO}" "${PGPACKAGE_VERSION}" \
-  -p "pgpackage-${PGPACKAGE_VERSION}-darwin-x64.zip" \
   -p "pgpackage-${PGPACKAGE_VERSION}-darwin-arm64.zip" \
-  -p "pgpackage-${PGPACKAGE_VERSION}-linux-x64.zip" \
   -p "pgpackage-${PGPACKAGE_VERSION}-linux-arm64.zip" \
   --skip-existing
 >&2 echo "::endgroup::"
 
 for i in \
-  "darwin x64   PGPACKAGE_DARWIN_X64" \
   "darwin arm64 PGPACKAGE_DARWIN_ARM64" \
-  "linux x64    PGPACKAGE_LINUX_X64" \
   "linux arm64  PGPACKAGE_LINUX_ARM64" \
   ; do
   # shellcheck disable=SC2086
@@ -45,4 +41,4 @@ for i in \
   >&2 echo "${OS}-${ARCH} URL:    ${!URL_VAR}"
 done
 
-envsubst '$PGPACKAGE_VERSION,$PGPACKAGE_DARWIN_X64_URL,$PGPACKAGE_DARWIN_X64_SHA256,$PGPACKAGE_DARWIN_ARM64_URL,$PGPACKAGE_DARWIN_ARM64_SHA256,$PGPACKAGE_LINUX_X64_URL,$PGPACKAGE_LINUX_X64_SHA256,$PGPACKAGE_LINUX_ARM64_URL,$PGPACKAGE_LINUX_ARM64_SHA256' < "${TAP_TEMPLATE_FILE}"
+envsubst '$PGPACKAGE_VERSION,$PGPACKAGE_DARWIN_ARM64_URL,$PGPACKAGE_DARWIN_ARM64_SHA256,$PGPACKAGE_LINUX_ARM64_URL,$PGPACKAGE_LINUX_ARM64_SHA256' < "${TAP_TEMPLATE_FILE}"

@@ -18,16 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: ubuntu-24.04
-            label: linux-x64
           - runner: ubuntu-24.04-arm
             label: linux-arm64
-          - runner: macos-15-intel
-            label: darwin-x64
           - runner: macos-14
             label: darwin-arm64
-          - runner: windows-2025
-            label: windows-x64
     runs-on: ${{ matrix.runner }}
     defaults:
       run:
@@ -53,9 +47,6 @@ jobs:
         run: |
           set -euo pipefail
           case "${{ matrix.label }}" in
-            darwin-x64)
-              mv .out/pgpackage-${BUILD_VERSION}-darwin-x64.zip .out/pgpackage-${BUILD_VERSION}-darwin-x64-unsigned.zip
-              ;;
             darwin-arm64)
               mv .out/pgpackage-${BUILD_VERSION}-darwin-arm64.zip .out/pgpackage-${BUILD_VERSION}-darwin-arm64-unsigned.zip
               ;;
