@@ -54,8 +54,105 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+  sign-and-notarize:
+    runs-on: macos-latest
+    steps:
+      - name: Download unsigned macOS artifacts
+        uses: robinraju/release-downloader@v1.11
+        with:
+          tag: ${{ github.ref_name }}
+          fileName: 'pgpackage-*-darwin-*-unsigned.zip'
+
+      - name: Extract binaries
+        run: |
+          set -euo pipefail
+          mkdir -p .out/darwin/arm64 .out/darwin/x64
+          unzip -o -d .out/darwin/arm64 pgpackage-${{ github.ref_name }}-darwin-arm64-unsigned.zip
+          unzip -o -d .out/darwin/x64 pgpackage-${{ github.ref_name }}-darwin-x64-unsigned.zip
+          test -f .out/darwin/arm64/pgpackage
+          test -f .out/darwin/x64/pgpackage
+
+      - name: Add cert to keychain
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.MAC_CERT_BASE64 }}
+          p12-password: ${{ secrets.MAC_CERT_PASSWORD }}
+
+      - name: Sign binaries
+        run: |
+          set -euo pipefail
+          codesign --force --timestamp --sign "Developer ID Application: Magnus Opera (${{ secrets.MAC_DEV_TEAM_ID }})" .out/darwin/arm64/pgpackage --options=runtime --identifier "${{ secrets.MAC_CERT_BUNDLE_ID }}.arm64"
+          codesign --force --timestamp --sign "Developer ID Application: Magnus Opera (${{ secrets.MAC_DEV_TEAM_ID }})" .out/darwin/x64/pgpackage --options=runtime --identifier "${{ secrets.MAC_CERT_BUNDLE_ID }}.x64"
+          (cd .out/darwin/arm64; zip -q -r ../pgpackage-${{ github.ref_name }}-darwin-arm64.zip ./pgpackage)
+          (cd .out/darwin/x64; zip -q -r ../pgpackage-${{ github.ref_name }}-darwin-x64.zip ./pgpackage)
+
+      - name: Notarize arm64
+        uses: GuillaumeFalourd/notary-tools@v1
+        timeout-minutes: 10
+        with:
+          product_path: '.out/darwin/pgpackage-${{ github.ref_name }}-darwin-arm64.zip'
+          apple_id: ${{ secrets.MAC_DEV_LOGIN }}
+          password: ${{ secrets.MAC_DEV_PASSWORD }}
+          team_id: ${{ secrets.MAC_DEV_TEAM_ID }}
+          xcode_path: '/Applications/Xcode_16.4.app'
+          staple: false
+
+      - name: Notarize x64
+        uses: GuillaumeFalourd/notary-tools@v1
+        timeout-minutes: 10
+        with:
+          product_path: '.out/darwin/pgpackage-${{ github.ref_name }}-darwin-x64.zip'
+          apple_id: ${{ secrets.MAC_DEV_LOGIN }}
+          password: ${{ secrets.MAC_DEV_PASSWORD }}
+          team_id: ${{ secrets.MAC_DEV_TEAM_ID }}
+          xcode_path: '/Applications/Xcode_16.4.app'
+          staple: false
+
+      - name: Upload signed macOS artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            .out/darwin/pgpackage-${{ github.ref_name }}-darwin-arm64.zip
+            .out/darwin/pgpackage-${{ github.ref_name }}-darwin-x64.zip
+
+      - name: Remove unsigned macOS artifacts
+        continue-on-error: true
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              const tag = context.ref.replace('refs/tags/', '');
+              const unsignedNames = [
+                `pgpackage-${tag}-darwin-arm64-unsigned.zip`,
+                `pgpackage-${tag}-darwin-x64-unsigned.zip`,
+              ];
+              const { data: release } = await github.rest.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag,
+              });
+              for (const unsignedName of unsignedNames) {
+                const asset = release.assets.find(a => a.name === unsignedName);
+                if (!asset) {
+                  core.info(`Unsigned artifact not found: ${unsignedName}`);
+                  continue;
+                }
+                await github.rest.repos.deleteReleaseAsset({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  asset_id: asset.id,
+                });
+                core.info(`Deleted unsigned artifact: ${unsignedName}`);
+              }
+            } catch (error) {
+              core.warning(`Best-effort cleanup failed: ${error?.message ?? error}`);
+            }
+
   update-homebrew-tap:
     uses: ./.github/workflows/release-homebrew-tap.yml
+    needs:
+      - sign-and-notarize
     with:
       ref: ${{ github.ref }}
       version: ${{ github.ref_name }}
