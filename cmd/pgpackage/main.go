@@ -6,22 +6,31 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/pct/pgpackage/internal/apply"
-	"github.com/pct/pgpackage/internal/diff"
-	"github.com/pct/pgpackage/internal/introspect"
-	"github.com/pct/pgpackage/internal/packagefmt"
-	"github.com/pct/pgpackage/internal/parser"
-	"github.com/pct/pgpackage/internal/projectxml"
-	"github.com/pct/pgpackage/internal/render"
+	"github.com/MagnusOpera/pgpackage/internal/apply"
+	"github.com/MagnusOpera/pgpackage/internal/diff"
+	"github.com/MagnusOpera/pgpackage/internal/introspect"
+	"github.com/MagnusOpera/pgpackage/internal/packagefmt"
+	"github.com/MagnusOpera/pgpackage/internal/parser"
+	"github.com/MagnusOpera/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpackage/internal/render"
+)
+
+var (
+	version             = "dev"
+	commit              = "unknown"
+	buildDate           = "unknown"
+	stdout    io.Writer = os.Stdout
+	stderr    io.Writer = os.Stderr
 )
 
 func main() {
 	if err := run(context.Background(), os.Args[1:]); err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		fmt.Fprintf(stderr, "error: %v\n", err)
 		os.Exit(1)
 	}
 }
@@ -39,6 +48,9 @@ func run(ctx context.Context, args []string) error {
 		return runPlan(ctx, args[1:])
 	case "apply":
 		return runApply(ctx, args[1:])
+	case "version", "--version":
+		printVersion()
+		return nil
 	case "help", "--help", "-h":
 		printUsage()
 		return nil
@@ -79,7 +91,7 @@ func runBuild(ctx context.Context, args []string) error {
 		return err
 	}
 
-	fmt.Println(targetOutput)
+	fmt.Fprintln(stdout, targetOutput)
 	_ = ctx
 	return nil
 }
@@ -127,7 +139,7 @@ func runPlan(ctx context.Context, args []string) error {
 		encoder.SetIndent("", "  ")
 		return encoder.Encode(plan)
 	case "text":
-		fmt.Print(render.Text(plan))
+		fmt.Fprint(stdout, render.Text(plan))
 		return nil
 	default:
 		return fmt.Errorf("unsupported format %q", *format)
@@ -168,7 +180,7 @@ func runApply(ctx context.Context, args []string) error {
 		return err
 	}
 
-	fmt.Println("Applied package.")
+	fmt.Fprintln(stdout, "Applied package.")
 	return nil
 }
 
@@ -188,7 +200,19 @@ func resolvePackageOutput(outputPath, packageID string) (string, error) {
 }
 
 func printUsage() {
-	fmt.Println("pgpackage build --project <file.pgpackage> --output <dir-or-file>")
-	fmt.Println("pgpackage plan --package <file.pgpkg> --connection <postgres-uri> [--format text|json] [--script <file>] [--allow-drop]")
-	fmt.Println("pgpackage apply --package <file.pgpkg> --connection <postgres-uri> [--allow-drop] [--force]")
+	fmt.Fprintln(stdout, "pgpackage build --project <file.pgpackage> --output <dir-or-file>")
+	fmt.Fprintln(stdout, "pgpackage plan --package <file.pgpkg> --connection <postgres-uri> [--format text|json] [--script <file>] [--allow-drop]")
+	fmt.Fprintln(stdout, "pgpackage apply --package <file.pgpkg> --connection <postgres-uri> [--allow-drop] [--force]")
+	fmt.Fprintln(stdout, "pgpackage version")
+	fmt.Fprintln(stdout, "pgpackage --version")
+}
+
+func printVersion() {
+	fmt.Fprintf(stdout, "pgpackage %s\n", version)
+	if commit != "" && commit != "unknown" {
+		fmt.Fprintf(stdout, "commit: %s\n", commit)
+	}
+	if buildDate != "" && buildDate != "unknown" {
+		fmt.Fprintf(stdout, "built: %s\n", buildDate)
+	}
 }

@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pct/pgpackage/internal/parser"
-	"github.com/pct/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpackage/internal/parser"
+	"github.com/MagnusOpera/pgpackage/internal/projectxml"
 )
 
 func TestWriteReadPreservesTargetConfig(t *testing.T) {

@@ -1,0 +1,56 @@
+.heroBanner {
+  padding: 4.5rem 0 3rem;
+  background:
+    radial-gradient(circle at top left, rgba(231, 125, 17, 0.22), transparent 32%),
+    radial-gradient(circle at right center, rgba(24, 122, 170, 0.18), transparent 28%),
+    linear-gradient(135deg, #0e2433 0%, #1f425a 52%, #f1f5f8 52%, #f1f5f8 100%);
+}
+
+.heroPanel {
+  max-width: 54rem;
+  padding: 2.25rem;
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 22px 60px rgba(14, 36, 51, 0.2);
+}
+
+.eyebrow {
+  margin: 0 0 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a95200;
+}
+
+.heroTitle {
+  margin-bottom: 1rem;
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  line-height: 0.95;
+  color: #102431;
+}
+
+.heroSubtitle {
+  max-width: 42rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #314455;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.6rem;
+}
+
+@media (max-width: 996px) {
+  .heroBanner {
+    padding-top: 3rem;
+    background: linear-gradient(180deg, #0e2433 0%, #1f425a 36%, #f1f5f8 36%, #f1f5f8 100%);
+  }
+
+  .heroPanel {
+    padding: 1.5rem;
+  }
+}

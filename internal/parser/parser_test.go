@@ -3,7 +3,7 @@ package parser
 import (
 	"testing"
 
-	"github.com/pct/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpackage/internal/projectxml"
 )
 
 func TestBuildDesiredModel(t *testing.T) {

@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pct/pgpackage/internal/model"
-	"github.com/pct/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpackage/internal/model"
+	"github.com/MagnusOpera/pgpackage/internal/projectxml"
 )
 
 type Options struct {

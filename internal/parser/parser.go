@@ -8,13 +8,13 @@ import (
 
 	pg_query "github.com/pganalyze/pg_query_go/v6"
 
-	"github.com/pct/pgpackage/internal/model"
-	"github.com/pct/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpackage/internal/model"
+	"github.com/MagnusOpera/pgpackage/internal/projectxml"
 )
 
 var (
-	tableCommentPattern  = regexp.MustCompile(`(?i)^COMMENT ON TABLE ([a-zA-Z0-9_".]+) IS ('(?:[^']|'')*'|NULL)$`)
-	columnCommentPattern = regexp.MustCompile(`(?i)^COMMENT ON COLUMN ([a-zA-Z0-9_".]+)\.([a-zA-Z0-9_".]+)\.([a-zA-Z0-9_".]+) IS ('(?:[^']|'')*'|NULL)$`)
+	tableCommentPattern     = regexp.MustCompile(`(?i)^COMMENT ON TABLE ([a-zA-Z0-9_".]+) IS ('(?:[^']|'')*'|NULL)$`)
+	columnCommentPattern    = regexp.MustCompile(`(?i)^COMMENT ON COLUMN ([a-zA-Z0-9_".]+)\.([a-zA-Z0-9_".]+)\.([a-zA-Z0-9_".]+) IS ('(?:[^']|'')*'|NULL)$`)
 	extensionVersionPattern = regexp.MustCompile(`(?i)\bVERSION\s+("?[^"\s]+"?|'[^']+')`)
 )
 

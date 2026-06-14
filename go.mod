@@ -1,4 +1,4 @@
-module github.com/pct/pgpackage
+module github.com/MagnusOpera/pgpackage
 
 go 1.26.0
 

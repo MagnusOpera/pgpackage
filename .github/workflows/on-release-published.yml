@@ -1,0 +1,63 @@
+name: Release
+run-name: Release ${{ github.ref_name }}
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: release-publish-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  deploy-website:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout released ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install website dependencies
+        run: make website-install
+
+      - name: Build website
+        env:
+          PGPACKAGE_DOCS_LAST_VERSION: ${{ github.event.release.tag_name || github.ref_name || 'current' }}
+        run: make website-build
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: website/build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  update-homebrew-tap:
+    uses: ./.github/workflows/release-homebrew-tap.yml
+    with:
+      ref: ${{ github.ref }}
+      version: ${{ github.ref_name }}
+      dry-run: false
+    secrets: inherit

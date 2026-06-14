@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/pct/pgpackage/internal/model"
+	"github.com/MagnusOpera/pgpackage/internal/model"
 )
 
 func LoadActualModel(ctx context.Context, connectionString string, ownedSchemas []string, managedExtensions []string, expectedVersion int) (*model.SchemaModel, error) {
