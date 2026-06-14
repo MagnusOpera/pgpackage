@@ -28,8 +28,6 @@ jobs:
             label: darwin-arm64
           - runner: windows-2025
             label: windows-x64
-          - runner: windows-11-arm
-            label: windows-arm64
     runs-on: ${{ matrix.runner }}
     defaults:
       run:
@@ -69,6 +67,7 @@ jobs:
           name: release-${{ matrix.label }}
           path: .out/*.zip
           if-no-files-found: error
+          include-hidden-files: true
 
   create-draft-release:
     runs-on: ubuntu-latest
