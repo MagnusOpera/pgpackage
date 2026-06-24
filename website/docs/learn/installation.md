@@ -16,6 +16,7 @@ brew install pgpackage
 Each tagged release publishes zip archives for:
 
 - macOS arm64
+- Linux x64
 - Linux arm64
 
 Download the archive for your platform from [GitHub Releases](https://github.com/MagnusOpera/pgpackage/releases), extract it, and place `pgpackage` on your `PATH`.

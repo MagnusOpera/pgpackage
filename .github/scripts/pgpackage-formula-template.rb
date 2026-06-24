@@ -14,6 +14,11 @@ class Pgpackage < Formula
     sha256 "${PGPACKAGE_LINUX_ARM64_SHA256}"
   end
 
+  if OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
+    url "${PGPACKAGE_LINUX_X64_URL}"
+    sha256 "${PGPACKAGE_LINUX_X64_SHA256}"
+  end
+
   def install
     bin.install "pgpackage"
   end

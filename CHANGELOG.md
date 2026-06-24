@@ -4,6 +4,7 @@ All notable changes to pgpackage are documented in this file.
 
 ## [Unreleased]
 
+- Added Linux x64 release archives alongside the existing macOS arm64 and Linux arm64 binaries.
 - Reworked the website home page to better explain pgpackage as desired-state schema management for PostgreSQL.
 
 ## [0.0.2]
