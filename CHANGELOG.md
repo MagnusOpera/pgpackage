@@ -4,8 +4,13 @@ All notable changes to pgpackage are documented in this file.
 
 ## [Unreleased]
 
+## [0.2.0]
+
+
 - Fixed release preparation to clear website build cache before reinstalling docs dependencies.
 - Improved the website home page responsive layout on mobile screens.
+
+**Full Changelog**: https://github.com/MagnusOpera/pgpackage/compare/0.1.0...0.2.0
 
 ## [0.1.0]
 
