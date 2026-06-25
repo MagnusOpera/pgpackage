@@ -4,12 +4,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/MagnusOpera/pgpackage/internal/parser"
-	"github.com/MagnusOpera/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpac/internal/parser"
+	"github.com/MagnusOpera/pgpac/internal/projectxml"
 )
 
 func TestWriteReadPreservesTargetConfig(t *testing.T) {
-	projectPath := filepath.Join("..", "..", "testdata", "sample", "sample.pgpackage")
+	projectPath := filepath.Join("..", "..", "testdata", "sample", "sample.pgpac")
 	project, rawXML, err := projectxml.Load(projectPath)
 	if err != nil {
 		t.Fatalf("Load returned error: %v", err)
@@ -44,7 +44,7 @@ func TestWriteReadPreservesTargetConfig(t *testing.T) {
 }
 
 func TestWriteReadRoundTrip(t *testing.T) {
-	project, raw, err := projectxml.Load("../../testdata/sample/sample.pgpackage")
+	project, raw, err := projectxml.Load("../../testdata/sample/sample.pgpac")
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
 	}

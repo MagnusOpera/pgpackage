@@ -4,7 +4,7 @@ import "testing"
 
 func TestLoadFromBytesParsesTargetAttributes(t *testing.T) {
 	raw := []byte(`
-<PgPackage ProjectVersion="1">
+<PgPac ProjectVersion="1">
   <PropertyGroup>
     <PackageId>SampleProject</PackageId>
     <Version>0.1.0</Version>
@@ -22,9 +22,9 @@ func TestLoadFromBytesParsesTargetAttributes(t *testing.T) {
       <Extension Name="pgcrypto" Version="1.3" />
     </Extensions>
   </Target>
-</PgPackage>`)
+</PgPac>`)
 
-	project, _, err := LoadFromBytes(raw, "sample.pgpackage")
+	project, _, err := LoadFromBytes(raw, "sample.pgpac")
 	if err != nil {
 		t.Fatalf("LoadFromBytes returned error: %v", err)
 	}
@@ -43,7 +43,7 @@ func TestLoadFromBytesParsesTargetAttributes(t *testing.T) {
 }
 
 func TestLoadAndResolve(t *testing.T) {
-	project, _, err := Load("../../testdata/sample/sample.pgpackage")
+	project, _, err := Load("../../testdata/sample/sample.pgpac")
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
 	}

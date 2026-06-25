@@ -193,7 +193,7 @@ if [[ -d website ]]; then
     rm -rf node_modules/.cache
     npm ci
     npm run version-docs -- "${version}"
-    PGPACKAGE_DOCS_LAST_VERSION="${version}" npm run build
+    PGPAC_DOCS_LAST_VERSION="${version}" npm run build
   )
 fi
 

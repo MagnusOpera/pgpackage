@@ -24,9 +24,9 @@ case "$goarch" in
     ;;
 esac
 
-binary_name="pgpackage"
+binary_name="pgpac"
 if [[ "$goos" == "windows" ]]; then
-  binary_name="pgpackage.exe"
+  binary_name="pgpac.exe"
 fi
 
 commit="${COMMIT:-$(git rev-parse --short HEAD 2>/dev/null || echo unknown)}"
@@ -34,12 +34,12 @@ build_date="${BUILD_DATE:-$(date -u +"%Y-%m-%dT%H:%M:%SZ")}"
 ldflags="-X main.version=${version} -X main.commit=${commit} -X main.buildDate=${build_date}"
 
 platform_dir="${out_dir}/${goos}/${arch_label}"
-archive_path="${out_dir}/pgpackage-${version}-${goos}-${arch_label}.zip"
+archive_path="${out_dir}/pgpac-${version}-${goos}-${arch_label}.zip"
 
 rm -rf "$platform_dir"
 mkdir -p "$platform_dir"
 
-go build -ldflags "$ldflags" -o "${platform_dir}/${binary_name}" ./cmd/pgpackage
+go build -ldflags "$ldflags" -o "${platform_dir}/${binary_name}" ./cmd/pgpac
 
 python3 - <<'PY' "$platform_dir" "$binary_name" "$archive_path"
 import sys

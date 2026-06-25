@@ -1,4 +1,4 @@
-module github.com/MagnusOpera/pgpackage
+module github.com/MagnusOpera/pgpac
 
 go 1.26.0
 

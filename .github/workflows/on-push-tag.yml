@@ -50,7 +50,7 @@ jobs:
           set -euo pipefail
           case "${{ matrix.label }}" in
             darwin-arm64)
-              mv .out/pgpackage-${BUILD_VERSION}-darwin-arm64.zip .out/pgpackage-${BUILD_VERSION}-darwin-arm64-unsigned.zip
+              mv .out/pgpac-${BUILD_VERSION}-darwin-arm64.zip .out/pgpac-${BUILD_VERSION}-darwin-arm64-unsigned.zip
               ;;
           esac
 

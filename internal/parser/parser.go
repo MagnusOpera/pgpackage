@@ -8,8 +8,8 @@ import (
 
 	pg_query "github.com/pganalyze/pg_query_go/v6"
 
-	"github.com/MagnusOpera/pgpackage/internal/model"
-	"github.com/MagnusOpera/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpac/internal/model"
+	"github.com/MagnusOpera/pgpac/internal/projectxml"
 )
 
 var (

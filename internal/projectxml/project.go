@@ -64,7 +64,7 @@ type ApplyConfig struct {
 }
 
 type xmlProject struct {
-	XMLName        xml.Name           `xml:"PgPackage"`
+	XMLName        xml.Name           `xml:"PgPac"`
 	ProjectVersion string             `xml:"ProjectVersion,attr"`
 	PropertyGroup  []xmlPropertyGroup `xml:"PropertyGroup"`
 	ItemGroup      []xmlItemGroup     `xml:"ItemGroup"`
@@ -278,7 +278,7 @@ func appendIncludeItems(items []ProjectItem, kind string, xmlItems []xmlIncludeI
 
 func (p *Project) Validate() error {
 	if p.ProjectVersion == "" {
-		return fmt.Errorf("PgPackage ProjectVersion is required")
+		return fmt.Errorf("PgPac ProjectVersion is required")
 	}
 	if p.PackageID == "" {
 		return fmt.Errorf("PackageId is required")

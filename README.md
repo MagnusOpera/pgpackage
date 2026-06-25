@@ -1,24 +1,24 @@
-# pgpackage
+# pgpac
 
-`pgpackage` is a Go-first PostgreSQL schema packaging tool in the spirit of `sqlpackage`, but designed around a standalone CLI and an XML project file.
+`pgpac` is a Go-first PostgreSQL schema packaging tool in the spirit of `sqlpackage`, but designed around a standalone CLI and an XML project file.
 
-Documentation website: <https://magnusopera.github.io/pgpackage/>
+Documentation website: <https://magnusopera.github.io/pgpac/>
 
 ## Commands
 
 ```bash
-pgpackage build --project testdata/sample/sample.pgpackage --output out/
-pgpackage plan --package out/SampleProject.pgpkg --connection "postgres://..."
-pgpackage apply --package out/SampleProject.pgpkg --connection "postgres://..."
-pgpackage --version
+pgpac build --project testdata/sample/sample.pgpac --output out/
+pgpac plan --package out/SampleProject.pgpkg --connection "postgres://..."
+pgpac apply --package out/SampleProject.pgpkg --connection "postgres://..."
+pgpac --version
 ```
 
 ## Project file
 
-Projects use the `.pgpackage` extension and describe the desired schema state.
+Projects use the `.pgpac` extension and describe the desired schema state.
 
 ```xml
-<PgPackage ProjectVersion="1">
+<PgPac ProjectVersion="1">
   <PropertyGroup>
     <PackageId>SampleProject</PackageId>
     <Version>0.1.0</Version>
@@ -47,7 +47,7 @@ Projects use the `.pgpackage` extension and describe the desired schema state.
     <Plan AllowCreate="true" AllowAlter="true" AllowDrop="false" />
     <Apply UseTransaction="true" LockTimeout="5s" StatementTimeout="10m" StopOnDataLossRisk="true" />
   </Target>
-</PgPackage>
+</PgPac>
 ```
 
 ## Status
@@ -61,7 +61,7 @@ This repository implements the v1 architecture and core end-to-end flow:
 - typed plan generation
 - apply execution with destructive-op safeguards
 
-Integration tests that hit a live database are gated behind `PGPACKAGE_TEST_DSN`.
+Integration tests that hit a live database are gated behind `PGPAC_TEST_DSN`.
 
 Current compatibility policy:
 

@@ -14,7 +14,7 @@ const principles = [
     text: 'Review normal SQL diffs instead of maintaining a migration narrative.',
   },
   {
-    label: 'pgpackage computes the delta',
+    label: 'pgpac computes the delta',
     text: 'Build, compare, and apply against the live database only when you are ready.',
   },
 ];
@@ -28,7 +28,7 @@ const workflow = [
   {
     step: '02',
     title: 'Diff desired state against reality',
-    text: 'pgpackage inspects the target database and generates an ordered plan from actual drift.',
+    text: 'pgpac inspects the target database and generates an ordered plan from actual drift.',
   },
   {
     step: '03',
@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <Layout
       title="DACPAC-style desired state for PostgreSQL"
-      description="Treat PostgreSQL schema as desired state in Git, then let pgpackage diff and apply it safely."
+      description="Treat PostgreSQL schema as desired state in Git, then let pgpac diff and apply it safely."
     >
       <header className={styles.heroBanner}>
         <div className="container">
@@ -50,8 +50,8 @@ export default function Home() {
               PostgreSQL schema as desired state
             </Heading>
             <p className={styles.heroSubtitle}>
-              `pgpackage` is DACPAC for Postgres. Your SQL source is the desired state configuration, Git carries
-              the change history, and `pgpackage` computes the diff between that intent and a live database.
+              `pgpac` is DACPAC for Postgres. Your SQL source is the desired state configuration, Git carries
+              the change history, and `pgpac` computes the diff between that intent and a live database.
             </p>
             <div className={styles.actions}>
               <Link className="button button--primary button--lg" to="/manual/learn/quickstart">
@@ -74,16 +74,16 @@ export default function Home() {
             <p className={styles.codeLabel}>Workflow</p>
             <pre className={styles.codeBlock}>
               <code>{`# SQL in Git is the source of truth
-pgpackage build --project app.pgpackage --output out/
+pgpac build --project app.pgpac --output out/
 
 # Compare desired state to the live target
-pgpackage plan --package out/app.pgpkg --connection "postgres://..."
+pgpac plan --package out/app.pgpkg --connection "postgres://..."
 
 # Apply the reviewed delta
-pgpackage apply --package out/app.pgpkg --connection "postgres://..."`}</code>
+pgpac apply --package out/app.pgpkg --connection "postgres://..."`}</code>
             </pre>
             <p className={styles.codeFootnote}>
-              Keep reasoning in terms of the schema you want. Let `pgpackage` reason about the transition.
+              Keep reasoning in terms of the schema you want. Let `pgpac` reason about the transition.
             </p>
           </div>
         </div>
@@ -97,7 +97,7 @@ pgpackage apply --package out/app.pgpkg --connection "postgres://..."`}</code>
               </Heading>
               <p className={styles.sectionText}>
                 Migration-heavy workflows force teams to reason about intermediate steps, ordering, and drift repair.
-                `pgpackage` shifts the unit of work back to the schema itself: define the desired state in SQL, keep
+                `pgpac` shifts the unit of work back to the schema itself: define the desired state in SQL, keep
                 that state in Git, and plan from the target database&apos;s current reality.
               </p>
             </div>

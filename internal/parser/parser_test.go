@@ -3,11 +3,11 @@ package parser
 import (
 	"testing"
 
-	"github.com/MagnusOpera/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpac/internal/projectxml"
 )
 
 func TestBuildDesiredModel(t *testing.T) {
-	project, _, err := projectxml.Load("../../testdata/sample/sample.pgpackage")
+	project, _, err := projectxml.Load("../../testdata/sample/sample.pgpac")
 	if err != nil {
 		t.Fatalf("Load() error = %v", err)
 	}

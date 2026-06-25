@@ -5,7 +5,7 @@ title: plan Command
 `plan` compares a built package to a live PostgreSQL database and emits the resulting operations.
 
 ```bash
-pgpackage plan \
+pgpac plan \
   --package <file.pgpkg> \
   --connection <postgres-uri> \
   [--format text|json] \

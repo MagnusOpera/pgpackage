@@ -5,7 +5,7 @@ title: apply Command
 `apply` executes a generated plan directly against a PostgreSQL target.
 
 ```bash
-pgpackage apply \
+pgpac apply \
   --package <file.pgpkg> \
   --connection <postgres-uri> \
   [--allow-drop] \

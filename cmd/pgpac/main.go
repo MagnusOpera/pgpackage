@@ -11,13 +11,13 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/MagnusOpera/pgpackage/internal/apply"
-	"github.com/MagnusOpera/pgpackage/internal/diff"
-	"github.com/MagnusOpera/pgpackage/internal/introspect"
-	"github.com/MagnusOpera/pgpackage/internal/packagefmt"
-	"github.com/MagnusOpera/pgpackage/internal/parser"
-	"github.com/MagnusOpera/pgpackage/internal/projectxml"
-	"github.com/MagnusOpera/pgpackage/internal/render"
+	"github.com/MagnusOpera/pgpac/internal/apply"
+	"github.com/MagnusOpera/pgpac/internal/diff"
+	"github.com/MagnusOpera/pgpac/internal/introspect"
+	"github.com/MagnusOpera/pgpac/internal/packagefmt"
+	"github.com/MagnusOpera/pgpac/internal/parser"
+	"github.com/MagnusOpera/pgpac/internal/projectxml"
+	"github.com/MagnusOpera/pgpac/internal/render"
 )
 
 var (
@@ -62,7 +62,7 @@ func run(ctx context.Context, args []string) error {
 
 func runBuild(ctx context.Context, args []string) error {
 	fs := flag.NewFlagSet("build", flag.ContinueOnError)
-	projectPath := fs.String("project", "", "Path to a .pgpackage project file")
+	projectPath := fs.String("project", "", "Path to a .pgpac project file")
 	outputPath := fs.String("output", "", "Output file or directory")
 	if err := fs.Parse(args); err != nil {
 		return err
@@ -200,15 +200,15 @@ func resolvePackageOutput(outputPath, packageID string) (string, error) {
 }
 
 func printUsage() {
-	fmt.Fprintln(stdout, "pgpackage build --project <file.pgpackage> --output <dir-or-file>")
-	fmt.Fprintln(stdout, "pgpackage plan --package <file.pgpkg> --connection <postgres-uri> [--format text|json] [--script <file>] [--allow-drop]")
-	fmt.Fprintln(stdout, "pgpackage apply --package <file.pgpkg> --connection <postgres-uri> [--allow-drop] [--force]")
-	fmt.Fprintln(stdout, "pgpackage version")
-	fmt.Fprintln(stdout, "pgpackage --version")
+	fmt.Fprintln(stdout, "pgpac build --project <file.pgpac> --output <dir-or-file>")
+	fmt.Fprintln(stdout, "pgpac plan --package <file.pgpkg> --connection <postgres-uri> [--format text|json] [--script <file>] [--allow-drop]")
+	fmt.Fprintln(stdout, "pgpac apply --package <file.pgpkg> --connection <postgres-uri> [--allow-drop] [--force]")
+	fmt.Fprintln(stdout, "pgpac version")
+	fmt.Fprintln(stdout, "pgpac --version")
 }
 
 func printVersion() {
-	fmt.Fprintf(stdout, "pgpackage %s\n", version)
+	fmt.Fprintf(stdout, "pgpac %s\n", version)
 	if commit != "" && commit != "unknown" {
 		fmt.Fprintf(stdout, "commit: %s\n", commit)
 	}

@@ -2,10 +2,10 @@
 title: Project File
 ---
 
-Projects use the `.pgpackage` extension and declare the desired schema state.
+Projects use the `.pgpac` extension and declare the desired schema state.
 
 ```xml
-<PgPackage ProjectVersion="1">
+<PgPac ProjectVersion="1">
   <PropertyGroup>
     <PackageId>SampleProject</PackageId>
     <Version>0.1.0</Version>
@@ -34,7 +34,7 @@ Projects use the `.pgpackage` extension and declare the desired schema state.
     <Plan AllowCreate="true" AllowAlter="true" AllowDrop="false" />
     <Apply UseTransaction="true" LockTimeout="5s" StatementTimeout="10m" StopOnDataLossRisk="true" />
   </Target>
-</PgPackage>
+</PgPac>
 ```
 
 ## PropertyGroup

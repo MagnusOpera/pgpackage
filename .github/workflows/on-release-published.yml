@@ -39,7 +39,7 @@ jobs:
 
       - name: Build website
         env:
-          PGPACKAGE_DOCS_LAST_VERSION: ${{ github.event.release.tag_name || github.ref_name || 'current' }}
+          PGPAC_DOCS_LAST_VERSION: ${{ github.event.release.tag_name || github.ref_name || 'current' }}
         run: make website-build
 
       - name: Configure GitHub Pages
@@ -61,14 +61,14 @@ jobs:
         uses: robinraju/release-downloader@v1.11
         with:
           tag: ${{ github.ref_name }}
-          fileName: 'pgpackage-*-darwin-arm64-unsigned.zip'
+          fileName: 'pgpac-*-darwin-arm64-unsigned.zip'
 
       - name: Extract binaries
         run: |
           set -euo pipefail
           mkdir -p .out/darwin/arm64
-          unzip -o -d .out/darwin/arm64 pgpackage-${{ github.ref_name }}-darwin-arm64-unsigned.zip
-          test -f .out/darwin/arm64/pgpackage
+          unzip -o -d .out/darwin/arm64 pgpac-${{ github.ref_name }}-darwin-arm64-unsigned.zip
+          test -f .out/darwin/arm64/pgpac
 
       - name: Add cert to keychain
         uses: apple-actions/import-codesign-certs@v3
@@ -79,14 +79,14 @@ jobs:
       - name: Sign binaries
         run: |
           set -euo pipefail
-          codesign --force --timestamp --sign "Developer ID Application: Magnus Opera (${{ secrets.MAC_DEV_TEAM_ID }})" .out/darwin/arm64/pgpackage --options=runtime --identifier "${{ secrets.MAC_CERT_BUNDLE_ID }}.arm64"
-          (cd .out/darwin/arm64; zip -q -r ../pgpackage-${{ github.ref_name }}-darwin-arm64.zip ./pgpackage)
+          codesign --force --timestamp --sign "Developer ID Application: Magnus Opera (${{ secrets.MAC_DEV_TEAM_ID }})" .out/darwin/arm64/pgpac --options=runtime --identifier "${{ secrets.MAC_CERT_BUNDLE_ID }}.arm64"
+          (cd .out/darwin/arm64; zip -q -r ../pgpac-${{ github.ref_name }}-darwin-arm64.zip ./pgpac)
 
       - name: Notarize arm64
         uses: GuillaumeFalourd/notary-tools@v1
         timeout-minutes: 10
         with:
-          product_path: '.out/darwin/pgpackage-${{ github.ref_name }}-darwin-arm64.zip'
+          product_path: '.out/darwin/pgpac-${{ github.ref_name }}-darwin-arm64.zip'
           apple_id: ${{ secrets.MAC_DEV_LOGIN }}
           password: ${{ secrets.MAC_DEV_PASSWORD }}
           team_id: ${{ secrets.MAC_DEV_TEAM_ID }}
@@ -98,7 +98,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           files: |
-            .out/darwin/pgpackage-${{ github.ref_name }}-darwin-arm64.zip
+            .out/darwin/pgpac-${{ github.ref_name }}-darwin-arm64.zip
 
       - name: Remove unsigned macOS artifacts
         continue-on-error: true
@@ -108,7 +108,7 @@ jobs:
             try {
               const tag = context.ref.replace('refs/tags/', '');
               const unsignedNames = [
-                `pgpackage-${tag}-darwin-arm64-unsigned.zip`,
+                `pgpac-${tag}-darwin-arm64-unsigned.zip`,
               ];
               const { data: release } = await github.rest.repos.getReleaseByTag({
                 owner: context.repo.owner,

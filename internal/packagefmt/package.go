@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/MagnusOpera/pgpackage/internal/model"
-	"github.com/MagnusOpera/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpac/internal/model"
+	"github.com/MagnusOpera/pgpac/internal/projectxml"
 )
 
 type Manifest struct {

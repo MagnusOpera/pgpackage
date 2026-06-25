@@ -3,7 +3,7 @@ dist/
 *.pgpkg
 coverage.out
 .DS_Store
-pgpackage
+/pgpac
 .out/
 website/build/
 website/.docusaurus/

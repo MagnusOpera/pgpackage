@@ -1,4 +1,4 @@
-<PgPackage ProjectVersion="1">
+<PgPac ProjectVersion="1">
   <PropertyGroup>
     <PackageId>SampleProject</PackageId>
     <Version>0.1.0</Version>
@@ -27,4 +27,4 @@
     <Plan AllowCreate="true" AllowAlter="true" AllowDrop="false" />
     <Apply UseTransaction="true" LockTimeout="5s" StatementTimeout="10m" StopOnDataLossRisk="true" />
   </Target>
-</PgPackage>
+</PgPac>

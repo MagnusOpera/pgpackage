@@ -4,10 +4,10 @@ title: What's New
 slug: /whats-new
 ---
 
-For the complete history, see the full [CHANGELOG.md](https://github.com/MagnusOpera/pgpackage/blob/main/CHANGELOG.md) on GitHub.
+For the complete history, see the full [CHANGELOG.md](https://github.com/MagnusOpera/pgpac/blob/main/CHANGELOG.md) on GitHub.
 
 ## 0.0.2
 
 - Limited release artifacts to Linux arm64 and macOS arm64 only, removing Windows and macOS x64 targets.
 
-**Full Changelog**: https://github.com/MagnusOpera/pgpackage/compare/0.0.1...0.0.2
+**Full Changelog**: https://github.com/MagnusOpera/pgpac/compare/0.0.1...0.0.2

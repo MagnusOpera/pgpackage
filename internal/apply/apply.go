@@ -8,8 +8,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/MagnusOpera/pgpackage/internal/diff"
-	"github.com/MagnusOpera/pgpackage/internal/projectxml"
+	"github.com/MagnusOpera/pgpac/internal/diff"
+	"github.com/MagnusOpera/pgpac/internal/projectxml"
 )
 
 type Options struct {

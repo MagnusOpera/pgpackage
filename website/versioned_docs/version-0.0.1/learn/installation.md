@@ -8,7 +8,7 @@ Published releases are distributed through `magnusopera/homebrew-tap`.
 
 ```bash
 brew tap magnusopera/tap
-brew install pgpackage
+brew install pgpac
 ```
 
 ## GitHub Releases
@@ -22,10 +22,10 @@ Each tagged release publishes zip archives for:
 - Windows x64
 - Windows arm64
 
-Download the archive for your platform from [GitHub Releases](https://github.com/MagnusOpera/pgpackage/releases), extract it, and place `pgpackage` on your `PATH`.
+Download the archive for your platform from [GitHub Releases](https://github.com/MagnusOpera/pgpac/releases), extract it, and place `pgpac` on your `PATH`.
 
 ## Verify the install
 
 ```bash
-pgpackage --version
+pgpac --version
 ```

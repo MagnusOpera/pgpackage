@@ -2,7 +2,7 @@
 title: Safety Model
 ---
 
-`pgpackage` is opinionated about destructive operations.
+`pgpac` is opinionated about destructive operations.
 
 ## Planning
 

@@ -4,7 +4,7 @@ title: What's New
 slug: /whats-new
 ---
 
-For the complete history, see the full [CHANGELOG.md](https://github.com/MagnusOpera/pgpackage/blob/main/CHANGELOG.md) on GitHub.
+For the complete history, see the full [CHANGELOG.md](https://github.com/MagnusOpera/pgpac/blob/main/CHANGELOG.md) on GitHub.
 
 ## 0.0.1
 
@@ -13,4 +13,4 @@ For the complete history, see the full [CHANGELOG.md](https://github.com/MagnusO
 - Added build-time CLI version reporting and cross-platform release packaging targets.
 - Added macOS Developer ID signing and notarization to the release workflow for GitHub Release and Homebrew distribution.
 
-**Full Changelog**: https://github.com/MagnusOpera/pgpackage/compare/b015550b6a7bbd28f781fb3662935e7752cd1532...0.0.1
+**Full Changelog**: https://github.com/MagnusOpera/pgpac/compare/b015550b6a7bbd28f781fb3662935e7752cd1532...0.0.1

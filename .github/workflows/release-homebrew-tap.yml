@@ -36,18 +36,18 @@ on:
         type: boolean
 
 env:
-  PGPACKAGE_VERSION: ${{ inputs.version }}
+  PGPAC_VERSION: ${{ inputs.version }}
 
 jobs:
   update-homebrew-tap:
     name: Update Homebrew Tap
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout pgpackage repo
+      - name: Checkout pgpac repo
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref }}
-          path: pgpackage
+          path: pgpac
 
       - name: Checkout tap repo
         uses: actions/checkout@v4
@@ -58,15 +58,15 @@ jobs:
 
       - name: Update Homebrew formula
         env:
-          PGPACKAGE_GH_REPO: ${{ github.repository }}
+          PGPAC_GH_REPO: ${{ github.repository }}
           GITHUB_TOKEN: ${{ github.token }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          ./pgpackage/.github/scripts/generate-homebrew-tap \
-            "${PGPACKAGE_VERSION}" \
-            ./pgpackage/.github/scripts/pgpackage-formula-template.rb \
-            > ./homebrew-tap/Formula/pgpackage.rb
+          ./pgpac/.github/scripts/generate-homebrew-tap \
+            "${PGPAC_VERSION}" \
+            ./pgpac/.github/scripts/pgpac-formula-template.rb \
+            > ./homebrew-tap/Formula/pgpac.rb
 
       - name: Commit updated tap
         working-directory: homebrew-tap
@@ -75,14 +75,14 @@ jobs:
 
           git config user.name magnusopera-bot
           git config user.email bot@magnusopera.io
-          git add Formula/pgpackage.rb
+          git add Formula/pgpac.rb
 
           if git diff --cached --quiet; then
             echo "No tap changes to commit"
             exit 0
           fi
 
-          git commit -m "Brew formula update for pgpackage version ${PGPACKAGE_VERSION}"
+          git commit -m "Brew formula update for pgpac version ${PGPAC_VERSION}"
 
       - name: Push tap
         working-directory: homebrew-tap

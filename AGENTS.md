@@ -15,7 +15,7 @@ Use these commands before opening or updating a PR:
 
 Equivalent direct commands:
 
-- `go build ./cmd/pgpackage`
+- `go build ./cmd/pgpac`
 - `go test ./...`
 
 ## Test Quality Policy
@@ -23,7 +23,7 @@ Equivalent direct commands:
 - Every new feature must include automated test coverage.
 - Every bug fix must include a regression test reproducing the prior failure mode.
 - Add tests in the suite matching the change surface:
-  - CLI and wiring -> `cmd/pgpackage`
+  - CLI and wiring -> `cmd/pgpac`
   - Package/model/project parsing -> matching `internal/...` package tests
   - SQL diff/apply behavior -> `internal/diff` and `internal/apply`
 - If release/build/distribution behavior changes, run `make release-build version=0.0.0-dev`.
@@ -36,7 +36,7 @@ Equivalent direct commands:
 - Write entries in user-facing terms, not implementation detail.
 - At release time, move unreleased entries to the versioned section and reset `Unreleased`.
 - Each released version section should end with a compare link:
-  - `**Full Changelog**: https://github.com/MagnusOpera/pgpackage/compare/<previous-tag>...<new-tag>`
+  - `**Full Changelog**: https://github.com/MagnusOpera/pgpac/compare/<previous-tag>...<new-tag>`
 - When publishing the GitHub release, include that same compare link in the release notes body.
 
 ## Commit Gate (Hard Requirement)

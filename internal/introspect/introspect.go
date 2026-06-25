@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
-	"github.com/MagnusOpera/pgpackage/internal/model"
+	"github.com/MagnusOpera/pgpac/internal/model"
 )
 
 func LoadActualModel(ctx context.Context, connectionString string, ownedSchemas []string, managedExtensions []string, expectedVersion int) (*model.SchemaModel, error) {
@@ -23,7 +23,7 @@ func LoadActualModel(ctx context.Context, connectionString string, ownedSchemas 
 	}
 	targetVersion := versionNum / 10000
 	if targetVersion < 17 {
-		return nil, fmt.Errorf("target database is PostgreSQL %d, but pgpackage requires PostgreSQL 17 or newer", targetVersion)
+		return nil, fmt.Errorf("target database is PostgreSQL %d, but pgpac requires PostgreSQL 17 or newer", targetVersion)
 	}
 
 	m := &model.SchemaModel{PostgresVersion: targetVersion}

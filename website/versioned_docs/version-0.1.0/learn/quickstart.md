@@ -7,7 +7,7 @@ This walkthrough uses the sample project in the repository.
 ## 1. Build a package
 
 ```bash
-pgpackage build --project testdata/sample/sample.pgpackage --output out/
+pgpac build --project testdata/sample/sample.pgpac --output out/
 ```
 
 That produces `out/SampleProject.pgpkg`.
@@ -15,7 +15,7 @@ That produces `out/SampleProject.pgpkg`.
 ## 2. Generate a plan against a target database
 
 ```bash
-pgpackage plan \
+pgpac plan \
   --package out/SampleProject.pgpkg \
   --connection "postgres://user:pass@localhost:5432/appdb"
 ```
@@ -25,7 +25,7 @@ Use `--format json` if you want machine-readable output, or `--script plan.sql` 
 ## 3. Apply the plan
 
 ```bash
-pgpackage apply \
+pgpac apply \
   --package out/SampleProject.pgpkg \
   --connection "postgres://user:pass@localhost:5432/appdb"
 ```

@@ -1,6 +1,6 @@
-APP := pgpackage
-CMD := ./cmd/pgpackage
-SAMPLE_PROJECT := testdata/sample/sample.pgpackage
+APP := pgpac
+CMD := ./cmd/pgpac
+SAMPLE_PROJECT := testdata/sample/sample.pgpac
 OUT_DIR := out
 SAMPLE_PACKAGE := $(OUT_DIR)/SampleProject.pgpkg
 RELEASE_DIR := .out

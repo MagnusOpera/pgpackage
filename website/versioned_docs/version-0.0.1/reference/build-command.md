@@ -2,15 +2,15 @@
 title: build Command
 ---
 
-`build` compiles a `.pgpackage` project into a `.pgpkg` archive.
+`build` compiles a `.pgpac` project into a `.pgpkg` archive.
 
 ```bash
-pgpackage build --project <file.pgpackage> --output <dir-or-file>
+pgpac build --project <file.pgpac> --output <dir-or-file>
 ```
 
 ## Required flags
 
-- `--project`: path to the `.pgpackage` project file
+- `--project`: path to the `.pgpac` project file
 - `--output`: output directory or a direct `.pgpkg` file path
 
 ## Output

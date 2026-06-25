@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'pgpackage',
+  title: 'pgpac',
   tagline: 'Package, diff, and apply PostgreSQL schema state with a Go-native CLI.',
   favicon: 'img/logo.svg',
 
@@ -12,10 +12,10 @@ const config: Config = {
   },
 
   url: 'https://magnusopera.github.io',
-  baseUrl: '/pgpackage/',
+  baseUrl: '/pgpac/',
 
   organizationName: 'MagnusOpera',
-  projectName: 'pgpackage',
+  projectName: 'pgpac',
 
   onBrokenLinks: 'throw',
 
@@ -31,13 +31,13 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           routeBasePath: 'manual',
-          lastVersion: process.env.PGPACKAGE_DOCS_LAST_VERSION ?? 'current',
+          lastVersion: process.env.PGPAC_DOCS_LAST_VERSION ?? 'current',
           versions: {
             current: {
               label: 'Next',
             },
           },
-          editUrl: 'https://github.com/MagnusOpera/pgpackage/tree/main/website/',
+          editUrl: 'https://github.com/MagnusOpera/pgpac/tree/main/website/',
         },
         blog: false,
         theme: {
@@ -55,9 +55,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'pgpackage',
+      title: 'pgpac',
       logo: {
-        alt: 'pgpackage Logo',
+        alt: 'pgpac Logo',
         src: 'img/logo.svg',
       },
       items: [
@@ -73,7 +73,7 @@ const config: Config = {
           dropdownActiveClassDisabled: true,
         },
         {
-          href: 'https://github.com/MagnusOpera/pgpackage',
+          href: 'https://github.com/MagnusOpera/pgpac',
           label: 'GitHub',
           position: 'right',
         },
@@ -113,11 +113,11 @@ const config: Config = {
           items: [
             {
               label: 'Repository',
-              href: 'https://github.com/MagnusOpera/pgpackage',
+              href: 'https://github.com/MagnusOpera/pgpac',
             },
             {
               label: 'Changelog',
-              href: 'https://github.com/MagnusOpera/pgpackage/blob/main/CHANGELOG.md',
+              href: 'https://github.com/MagnusOpera/pgpac/blob/main/CHANGELOG.md',
             },
           ],
         },

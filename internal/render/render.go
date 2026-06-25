@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MagnusOpera/pgpackage/internal/diff"
+	"github.com/MagnusOpera/pgpac/internal/diff"
 )
 
 func Text(plan diff.Plan) string {
