@@ -4,7 +4,12 @@ All notable changes to pgpackage are documented in this file.
 
 ## [Unreleased]
 
+## [0.2.1]
+
+
 - Pinned the macOS notarization release job to macOS 15 so published releases keep using the expected Xcode toolchain.
+
+**Full Changelog**: https://github.com/MagnusOpera/pgpackage/compare/0.2.0...0.2.1
 
 ## [0.2.0]
 
