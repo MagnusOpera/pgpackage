@@ -4,7 +4,12 @@ All notable changes to pgpac are documented in this file.
 
 ## [Unreleased]
 
+## [0.3.0]
+
+
 - Renamed the CLI, release artifacts, and install surfaces from `pgpackage` to `pgpac`.
+
+**Full Changelog**: https://github.com/MagnusOpera/pgpac/compare/0.2.1...0.3.0
 
 ## [0.2.1]
 
